@@ -1,0 +1,24 @@
+{
+  "name": "restaurant",
+  "version": "1.0.0",
+  "description": "MEAN app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "serve": "nodemon index"
+  },
+  "keywords": [
+    "angualar",
+    "node",
+    "express",
+    "mongoDB"
+  ],
+  "author": "Ivan Hrushevich",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
