@@ -3,15 +3,13 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 const keys = require('../config/keys');
+const errorHandler = require('../utils/errorHandler');
 
 module.exports.login = async (req, res) => {
   const userInDb = await User.findOne({ email: req.body.email });
 
   if (userInDb) {
-    const passwordResult = bcrypt.compareSync(
-      req.body.password,
-      userInDb.password
-    );
+    const passwordResult = bcrypt.compareSync(req.body.password, userInDb.password);
 
     if (passwordResult) {
       const token = jwt.sign(
@@ -40,9 +38,7 @@ module.exports.register = async (req, res) => {
   const userInDb = await User.findOne({ email: req.body.email });
 
   if (userInDb) {
-    res
-      .status(400)
-      .json({ message: 'This email already exists. Try another one.' });
+    res.status(400).json({ message: 'This email already exists. Try another one.' });
   } else {
     const salt = bcrypt.genSaltSync(10);
 
@@ -55,7 +51,7 @@ module.exports.register = async (req, res) => {
       await user.save();
       res.status(201).json(user);
     } catch (err) {
-      //
+      errorHandler(err);
     }
   }
 };
