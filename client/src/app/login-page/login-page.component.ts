@@ -45,6 +45,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(): void {
+    this.form.disable();
+
     this.authService
       .login(this.form.value)
       .pipe(takeUntil(this.destroyed$))
