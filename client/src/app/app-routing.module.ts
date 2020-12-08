@@ -1,11 +1,19 @@
-import { LoginPageComponent } from './login-page/login-page.component';
+import { RegisterPageComponent } from './register-page/register-page.component';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+
+import { LoginPageComponent } from './login-page/login-page.component';
+import { AuthLayoutComponent } from './shared/layouts/auth-layout/auth-layout.component';
 
 const routes: Routes = [
   {
-    path: 'login',
-    component: LoginPageComponent,
+    path: '',
+    component: AuthLayoutComponent,
+    children: [
+      { path: '', redirectTo: '/login', pathMatch: 'full' },
+      { path: 'login', component: LoginPageComponent },
+      { path: 'register', component: RegisterPageComponent },
+    ],
   },
 ];
 
