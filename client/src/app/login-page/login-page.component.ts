@@ -31,9 +31,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     });
 
     this.route.queryParams.subscribe((params: Params) => {
-      if (params['registered']) {
+      if (params.registered) {
         // now you may log in
-      } else if (params['accessDenied']) {
+      } else if (params.accessDenied) {
         // you need to log in first
       }
     });
