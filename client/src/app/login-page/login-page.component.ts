@@ -5,7 +5,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { AuthService } from '../shared/';
+import { AuthService, MaterialService } from '../shared';
 
 @Component({
   selector: 'app-login-page',
@@ -30,13 +30,15 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       password: [null, [Validators.required, Validators.minLength(6)]],
     });
 
-    this.route.queryParams.subscribe((params: Params) => {
-      if (params.registered) {
-        // now you may log in
-      } else if (params.accessDenied) {
-        // you need to log in first
-      }
-    });
+    this.route.queryParams
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((params: Params) => {
+        if (params.registered) {
+          MaterialService.toast('Now you may log in.');
+        } else if (params.accessDenied) {
+          MaterialService.toast('You need to log in first.');
+        }
+      });
   }
 
   public ngOnDestroy(): void {
@@ -54,7 +56,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         () => {
           this.router.navigate(['/overview']);
         },
-        () => this.form.enable()
+        (error) => {
+          MaterialService.toast(error.error.message);
+          this.form.enable();
+        }
       );
   }
 }

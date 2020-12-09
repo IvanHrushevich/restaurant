@@ -5,7 +5,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../shared';
+import { AuthService, MaterialService } from '../shared';
 
 @Component({
   selector: 'app-register-page',
@@ -47,7 +47,10 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
             queryParams: { registered: true },
           });
         },
-        () => this.form.enable()
+        (error) => {
+          MaterialService.toast(error.error.message);
+          this.form.enable();
+        }
       );
   }
 }
